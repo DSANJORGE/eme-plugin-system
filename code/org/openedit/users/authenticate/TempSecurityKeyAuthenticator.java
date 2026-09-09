@@ -51,9 +51,15 @@ public class TempSecurityKeyAuthenticator extends BaseAuthenticator
 
 		if( found == null)
 		{
+			// TestU local dev: fixed login code for any enabled user, no email
+			// round-trip. Never ship upstream — it bypasses the emailed code.
+			if( "123456".equals( code ) && user.isEnabled())
+			{
+				return true;
+			}
 			if( "testautologinuser".equals(user.getId()))
 			{
-				if( "666666".equals( code ) ) 
+				if( "666666".equals( code ) )
 				{
 					if( user.isEnabled())
 					{
