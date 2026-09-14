@@ -1,17 +1,15 @@
 /*
  * Copyright 2013 John Leacox
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License. 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.openedit.util;
@@ -27,13 +25,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * An object that consumes an {@link InputStream} on a daemon thread to prevent
- * the stream from blocking.
+ * An object that consumes an {@link InputStream} on a daemon thread to prevent the stream from
+ * blocking.
  * 
  * <p>
- * The stream can optionally be output to a logger at an INFO level. The gobbler
- * thread will run until the stream is empty or until this {@code StreamGobbler}
- * is closed.
+ * The stream can optionally be output to a logger at an INFO level. The gobbler thread will run
+ * until the stream is empty or until this {@code StreamGobbler} is closed.
  * 
  * @author John Leacox
  * 
@@ -60,23 +57,21 @@ public class StreamGobbler implements Closeable, Runnable
 		fieldErrorStream = inIsErrorStream;
 	}
 
-	public StreamGobbler(InputStream inputStream, boolean enableLogging)
-	{
+	public StreamGobbler(InputStream inputStream, boolean enableLogging) {
 		this(inputStream, enableLogging, null);
 	}
 
 	/**
-	 * @param inLineListener optional callback invoked with each line as it is read from the
-	 *            stream, in addition to the existing logging/buffering behavior. May be null.
+	 * @param inLineListener optional callback invoked with each line as it is read from the stream, in
+	 *        addition to the existing logging/buffering behavior. May be null.
 	 */
-	public StreamGobbler(InputStream inputStream, boolean enableLogging, Consumer<String> inLineListener)
-	{
+	public StreamGobbler(InputStream inputStream, boolean enableLogging, Consumer<String> inLineListener) {
 		this.inputStream = inputStream;
 		this.isLoggingEnabled = enableLogging;
 		this.lineListener = inLineListener;
 
-		//setName("StreamGobbler");
-		//setDaemon(true);
+		// setName("StreamGobbler");
+		// setDaemon(true);
 	}
 
 	public ExecutorManager getExecutorManager()
@@ -120,8 +115,8 @@ public class StreamGobbler implements Closeable, Runnable
 				{
 					writer.append(line);
 					writer.append('\n');
-					//log.info(line);
-					if (writer.length() > 1000000) //Dont let this buffer get more than 100k of memory
+					// log.info(line);
+					if (writer.length() > 1000000) // Dont let this buffer get more than 100k of memory
 					{
 						String cut = writer.substring(writer.length() - 700000, writer.length());
 						writer = new StringBuffer(cut);
@@ -139,7 +134,7 @@ public class StreamGobbler implements Closeable, Runnable
 			{
 				log.debug("Failed to gobble stream", e);
 				log.info("Failed to gobble stream");
-				
+
 			}
 		}
 	}
@@ -155,7 +150,7 @@ public class StreamGobbler implements Closeable, Runnable
 		if (parentThread != null)
 		{
 			parentThread.interrupt();
-			//Do we need to destry this thread?
+			// Do we need to destry this thread?
 
 		}
 		inputStream.close();
