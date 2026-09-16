@@ -213,7 +213,7 @@ public abstract class BaseGenerator implements Generator, Cloneable
 	protected void setHeaders(HttpServletResponse res, Long lastmodified)
 	{
 		res.setHeader("ETag", lastmodified.toString());
-		res.setHeader("Cache-Control", "max-age=0; must-revalidate");
+		res.setHeader("Cache-Control", "max-age=0, must-revalidate");
 		// res.setDateHeader("Last-Modified", lastmodified);
 		// long now = System.currentTimeMillis();
 		// res.setDateHeader("Expires", now + (1000 * 60 * 60 * 24 * 30 * 6 )); //sec * min * hour * 48
