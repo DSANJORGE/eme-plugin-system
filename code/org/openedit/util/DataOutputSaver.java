@@ -45,7 +45,7 @@ public class DataOutputSaver extends BaseMediaObject implements LogListener
                 int cutoff = snapshot.lastIndexOf('\n');
                 if (cutoff > 0)
                 {
-                    snapshot = snapshot.substring(0, snapshot.length()  - cutoff + 1); 
+                    snapshot = snapshot.substring(0, snapshot.length() - cutoff + 1);
                 }
             }
             inData.setValue(fieldSaveFieldName, snapshot);
