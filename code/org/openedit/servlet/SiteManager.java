@@ -1,9 +1,7 @@
 package org.openedit.servlet;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
 import org.openedit.MultiValued;
 import org.openedit.cache.CacheManager;
