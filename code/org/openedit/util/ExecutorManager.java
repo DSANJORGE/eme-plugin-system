@@ -337,9 +337,7 @@ static class DefaultThreadFactory implements ThreadFactory {
 	{
 		if( fieldScheduler == null)
 		{
-			// TestU: 1 thread queued every learner's tutor reply behind every other LLM call.
-			// ponytail: 4 = llamat's 2 slots + headroom; AssistantManager keeps each channel serial.
-			fieldScheduler = Executors.newScheduledThreadPool(4);
+			fieldScheduler = Executors.newScheduledThreadPool(1); // Or more threads as needed}
 		}
 		return fieldScheduler;
 	}

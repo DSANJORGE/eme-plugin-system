@@ -47,24 +47,13 @@ public class TempSecurityKeyAuthenticator extends BaseAuthenticator
 		Calendar cal  = Calendar.getInstance();
 		cal.add(Calendar.HOUR, -1); //24 hours
 		Date newerthan = cal.getTime();
-		// Match the user in Java: "user" is a list field (plain term query), but some indexes map it
-		// analyzed, so ids like diego@testu.co never match exact("user", ...)
-		Data found = null;
-		for (Object hit : searcher.query().exact("securitycode",code).after("date",newerthan).search())
-		{
-			Data row = (Data) hit;
-			if (user.getId().equals(row.get("user")))
-			{
-				found = row;
-				break;
-			}
-		}
+		Data found = searcher.query().exact("user",user.getId()).exact("securitycode",code).after("date",newerthan).searchOne();
 
 		if( found == null)
 		{
 			if( "testautologinuser".equals(user.getId()))
 			{
-				if( "666666".equals( code ) )
+				if( "666666".equals( code ) ) 
 				{
 					if( user.isEnabled())
 					{
@@ -85,7 +74,7 @@ public class TempSecurityKeyAuthenticator extends BaseAuthenticator
 			String securitycode = found.get("securitycode");  //Double checking
 			if( code.equals(securitycode))
 			{
-				HitTracker codes = searcher.query().match("email",found.get("email")).search();
+				HitTracker codes = searcher.query().exact("user",user.getId()).search();
 				searcher.deleteAll(codes, user);
 				return true;
 			}
