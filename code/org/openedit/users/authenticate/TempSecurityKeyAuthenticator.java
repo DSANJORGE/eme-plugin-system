@@ -47,19 +47,7 @@ public class TempSecurityKeyAuthenticator extends BaseAuthenticator
 		Calendar cal  = Calendar.getInstance();
 		cal.add(Calendar.HOUR, -1); //24 hours
 		Date newerthan = cal.getTime();
-		// Match code and user in Java, only the date in Elasticsearch: exact() follows the field XML (analyzed ->
-		// "securitycode.exact"), but each index keeps the mapping it was created with and the XML has flipped between
-		// analyzed and not_analyzed, so a mismatch found no code. Only the last hour's codes are scanned.
-		Data found = null;
-		for (Object hit : searcher.query().after("date",newerthan).search())
-		{
-			Data row = (Data) hit;
-			if (code.equals(row.get("securitycode")) && user.getId().equals(row.get("user")))
-			{
-				found = row;
-				break;
-			}
-		}
+		Data found = searcher.query().exact("user",user.getId()).exact("securitycode",code).after("date",newerthan).searchOne();
 
 		if( found == null)
 		{
@@ -86,10 +74,8 @@ public class TempSecurityKeyAuthenticator extends BaseAuthenticator
 			String securitycode = found.get("securitycode");  //Double checking
 			if( code.equals(securitycode))
 			{
-				HitTracker codes = searcher.query().match("email",found.get("email")).search();
+				HitTracker codes = searcher.query().exact("user",user.getId()).search();
 				searcher.deleteAll(codes, user);
-				// match("email") finds nothing when the field XML and the index mapping disagree; still burn this code
-				searcher.delete(found, user);
 				return true;
 			}
 		
