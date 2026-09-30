@@ -469,6 +469,16 @@
 
 	</bean>
 
+	<bean id="webPushManager" class="org.entermediadb.websocket.push.WebPushManager">
+		<property name="moduleManager">
+			<ref bean="moduleManager" />
+		</property>
+		<property name="httpSharedConnection">
+			<ref bean="httpSharedConnection" />
+		</property>
+
+	</bean>
+
 
 	<bean id="virtualSiteManager" class="org.openedit.servlet.SiteManager">
 		<property name="searcherManager">
