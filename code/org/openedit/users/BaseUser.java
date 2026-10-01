@@ -370,7 +370,7 @@ public class BaseUser extends BaseData implements User, Comparable
 	 */
 	public void removeGroup(Group inGroup)
 	{
-		removeValue("groups",inGroup);
+		removeValue("groups", inGroup.getId()); 
 	}
 
 	public String toString()
