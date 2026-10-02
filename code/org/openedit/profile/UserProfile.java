@@ -3,6 +3,7 @@ package org.openedit.profile;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -944,6 +945,10 @@ public class UserProfile extends BaseData implements SaveableData, DataLoaded, C
 	public Collection getGroups()
 	{
 		// TODO Auto-generated method stub
+		if (getUser() == null)
+		{
+			return Collections.emptyList();
+		}
 		return getUser().getGroups();
 	}
 

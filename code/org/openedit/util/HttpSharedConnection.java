@@ -119,6 +119,7 @@ public class HttpSharedConnection
 							.setConnectionRequestTimeout(20 * 1000) // Max 5s wait for connection from pool
 							.setConnectTimeout(20 * 1000) // Max 10s to establish TCP handshake
 							.setSocketTimeout(socketTimeout) // Max time waiting for packet data
+							.setRedirectsEnabled(false) //Never redirect, because returns 200
 							.build();
 
 						// 2. Configure connection pool limits
